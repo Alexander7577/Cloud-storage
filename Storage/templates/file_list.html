@@ -1,0 +1,16 @@
+{% extends 'default/main.html' %}
+
+{% block title %} Облачное хранилище {% endblock title %}
+
+{% block content %}
+    <h1>Добро пожаловать в ваше облачное хранилище {{ user.username }}!</h1>
+
+
+    <ul class="file-list">
+            {% for file in user.file_set.all %}
+                <li>
+                    <a href="{{ file.file.url }}" target="_blank">{{ file.name }}</a>
+                </li>
+            {% endfor %}
+    </ul>
+{% endblock content %}
