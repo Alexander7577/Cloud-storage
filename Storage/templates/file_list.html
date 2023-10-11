@@ -3,14 +3,17 @@
 {% block title %} Облачное хранилище {% endblock title %}
 
 {% block content %}
-    <h1>Добро пожаловать в ваше облачное хранилище {{ user.username }}!</h1>
+    {% if request.user.is_authenticated %}
+        <h1>Добро пожаловать в ваше облачное хранилище {{ user.username }}!</h1>
 
-
-    <ul class="file-list">
-            {% for file in user.file_set.all %}
-                <li>
-                    <a href="{{ file.file.url }}" target="_blank">{{ file.name }}</a>
-                </li>
-            {% endfor %}
-    </ul>
+        <ul class="file-list">
+                {% for file in user.file_set.all %}
+                    <li>
+                        <a href="{{ file.file.url }}" target="_blank">{{ file.name }}</a>
+                    </li>
+                {% endfor %}
+        </ul>
+    {% else %}
+        <h1> Авторизуйтесь, чтобы пользоваться облачным хранилищем!</h1>
+                {% endif %}
 {% endblock content %}

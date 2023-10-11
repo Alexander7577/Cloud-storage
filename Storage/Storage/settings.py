@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'cloud',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'Storage.urls'
@@ -69,6 +73,11 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 WSGI_APPLICATION = 'Storage.wsgi.application'
@@ -135,3 +144,25 @@ STATICFILES_DIRS = [
 ]
 
 SITE_ID = 1
+
+LOGIN_URL = '/accounts/login/'
+LOGOUT_REDIRECT_URL = '/cloud/'
+LOGIN_REDIRECT_URL = '/cloud/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/cloud'
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/cloud'
+
+DEFAULT_FROM_EMAIL = 'Chudalex1999@yandex.ru'
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'Chudalex1999'
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_SSL = True
