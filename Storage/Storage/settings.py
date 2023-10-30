@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-v1ayxn3#0a+c58#aj7yxl-2%j^71wh-pc3gxkk6xw1xa1tjq#^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]', '.ngrok-free.app']
 
 
 # Application definition
@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -164,5 +164,6 @@ SERVER_EMAIL = DEFAULT_FROM_EMAIL
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'Chudalex1999'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = 'Sanechka23062004'
 EMAIL_USE_SSL = True
+

@@ -11741,14 +11741,50 @@ html {
 }
 
 .file-list li {
-    margin-right: 10px; /* Расстояние между файлами */
+    margin-right: 30px; /* Расстояние между файлами */
 }
 
-.file-list a {
+.file-item {
+    text-align: center; /* Центрирование элементов внутри div */
+}
+
+.file-item img {
+    display: block; /* Чтобы изображение было центрировано вертикально */
+    margin: 0 auto; /* Горизонтальное центрирование изображения */
+}
+
+.file-item a {
     text-decoration: none;
     color: #007bff; /* Цвет ссылок (ссылка на стандартный синий) */
+    display: block; /* Полное ширина ссылки */
 }
 
-.file-list a:hover {
+.file-item a:hover {
     text-decoration: underline; /* Подчеркивание при наведении */
+}
+
+.context-menu {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100px;
+}
+
+.context-menu li {
+    padding: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.context-menu li a {
+    text-decoration: none; /* Убираем подчеркивание для текста с ссылкой */
+    color: black; /* Чёрный цвет текста с ссылкой */
+}
+
+.context-menu li:hover {
+    background-color: #f0f0f0;
 }

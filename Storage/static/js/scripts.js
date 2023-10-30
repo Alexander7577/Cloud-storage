@@ -1,7 +1,43 @@
-/*!
-* Start Bootstrap - Personal v1.0.1 (https://startbootstrap.com/template-overviews/personal)
-* Copyright 2013-2023 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-personal/blob/master/LICENSE)
-*/
-// This file is intentionally blank
-// Use this file to add JavaScript to your project
+// Переменная для отслеживания текущего открытого контекстного меню
+var currentContextMenu = null;
+
+// Обработчик события ПКМ для файлов
+document.querySelectorAll('.file-item').forEach(function(fileItem) {
+    fileItem.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+
+        // Закрыть текущее контекстное меню, если оно открыто
+        if (currentContextMenu) {
+            currentContextMenu.remove();
+        }
+
+        // Определите ID файла из атрибута data-file-id
+        var fileId = fileItem.getAttribute('data-file-id');
+
+        // Создайте контекстное меню с опциями удаления, переименования и скачивания
+        var contextMenu = document.createElement('ul');
+        contextMenu.classList.add('context-menu');
+        var deleteURL = fileItem.getAttribute('data-url');
+        var downloadURL = fileItem.querySelector('a').getAttribute('href'); // URL для скачивания файла
+        contextMenu.innerHTML = `
+            <li><a href="${downloadURL}" download>Скачать</a></li>
+            <li><a href="${deleteURL}">Удалить</a></li>
+        `;
+
+        // Позиционируйте контекстное меню и добавьте его к DOM
+        contextMenu.style.left = e.pageX + 'px';
+        contextMenu.style.top = e.pageY + 'px';
+        document.body.appendChild(contextMenu);
+
+        // Запомните текущее контекстное меню
+        currentContextMenu = contextMenu;
+
+        // Закройте контекстное меню при щелчке вне меню
+        document.addEventListener('click', function() {
+            if (currentContextMenu) {
+                currentContextMenu.remove();
+                currentContextMenu = null;
+            }
+        });
+    });
+});
