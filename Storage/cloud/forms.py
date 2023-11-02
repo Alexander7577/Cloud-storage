@@ -8,4 +8,4 @@ class UploadForm(forms.ModelForm):
         model = File
         fields = ['file']
 
-    file = MultiFileField(min_num=1, max_num=20, max_file_size=1024 * 1024 * 5)
+    file = MultiFileField(min_num=1, max_num=20, max_file_size=1024 * 1024 * 100, label='')

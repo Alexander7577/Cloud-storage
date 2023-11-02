@@ -14,7 +14,7 @@ document.querySelectorAll('.file-item').forEach(function(fileItem) {
         // Определите ID файла из атрибута data-file-id
         var fileId = fileItem.getAttribute('data-file-id');
 
-        // Создайте контекстное меню с опциями удаления, переименования и скачивания
+        // Создаём контекстное меню с опциями удаления, переименования и скачивания
         var contextMenu = document.createElement('ul');
         contextMenu.classList.add('context-menu');
         var deleteURL = fileItem.getAttribute('data-url');

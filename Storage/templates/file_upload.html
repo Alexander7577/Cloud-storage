@@ -3,9 +3,12 @@
 {% block title %}Загрузка файлов{% endblock title %}
 
 {% block content %}
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Загрузить файл</button>
-</form>
+    <div class="upload-form-container">
+        <h1>Загрузка файлов</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Загрузить</button>
+        </form>
+    </div>
 {% endblock content %}
