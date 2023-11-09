@@ -4,13 +4,26 @@
 
 {% block content %}
     <h1>Вы в папке "{{ full_path }}"!</h1>
+    {% if folder.parent_folder %}
+        <div class="back-link folder-item" data-file-id="{{ folder.parent_folder.id }}">
+            <a href="{% url 'folder_detail' folder.parent_folder.id %}">
+                <img class="arrow-icon" src="/static/undo.png" alt="Назад" draggable="true">
+            </a>
+        </div>
+        {% else %}
+        <div class="back-link folder-item" data-file-id="file_list">
+            <a href="{% url 'file_list' %}">
+                <img class="arrow-icon" src="/static/undo.png" alt="Назад" draggable="true">
+            </a>
+        </div>
+    {% endif %}
     <hr>
 
         <ul class="file-list">
             {% for file in files %}
                 {% if file.is_folder %}
                     <li>
-                        <div class="file-item" data-file-id="{{ file.id }}" data-url="{% url 'folder_delete' file.id %}">
+                        <div class="file-item folder-item" data-file-id="{{ file.id }}" data-url="{% url 'folder_delete' file.id %}" data-additional-url="{% url 'folder_download' file.id %}" draggable="true">
                             <a href="{% url 'folder_detail' file.id %}">
                                 <img src="{{ file.image.url }}" alt="{{ file.name }}" width="100" height="100">
                             </a>
@@ -21,7 +34,7 @@
                     {# Ничего не делать, пропустить #}
                 {% else %}
                     <li>
-                        <div class="file-item" data-file-id="{{ file.id }}" data-url="{% url 'file_delete' file.id %}">
+                        <div class="file-item" data-file-id="{{ file.id }}" data-url="{% url 'file_delete' file.id %}" draggable="true">
                             <a href="{{ file.file.url }}" target="_blank">
                                 <img src="{{ file.image.url }}" alt="{{ file.name }}" width="100" height="100">
                             </a>

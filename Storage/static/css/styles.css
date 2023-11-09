@@ -11827,3 +11827,21 @@ button:hover {
     background: #0056b3;
 }
 
+.back-link {
+    display: inline-block; /* Делаем обертку строчным блоком */
+}
+
+.arrow-icon {
+    width: 20px; /* Размер стрелки */
+    height: 20px; /* Размер стрелки */
+    margin-left: 10px; /* Отступ слева (по x) */
+    margin-top: -5px; /* Отступ сверху (по y) */
+}
+
+/* Стиль целевой области (папки или места, куда перетаскивают) */
+.drag-over {
+  background-color: #f0f0f0; /* Фон целевой области во время перетаскивания */
+  border: 2px dashed #3498db; /* Пунктирная рамка целевой области */
+  border-radius: 5px;
+  opacity: 0.8;
+}

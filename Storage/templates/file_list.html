@@ -5,33 +5,33 @@
 {% block content %}
     {% if request.user.is_authenticated %}
         <h1>Добро пожаловать в ваше облачное хранилище, {{ user.username }}!</h1>
-        <hr>
+        <hr style="margin-top: 20px;">
 
-        <ul class="file-list">
-            {% for file in files %}
-                {% if file.folder or file.parent_folder %}
-                    {# Ничего не делать, пропустить #}
-                {% elif file.is_folder %}
-                    <li>
-                        <div class="file-item" data-file-id="{{ file.id }}" data-url="{% url 'folder_delete' file.id %}">
-                            <a href="{% url 'folder_detail' file.id %}">
-                                <img src="{{ file.image.url }}" alt="{{ file.name }}" width="100" height="100">
-                            </a>
-                            <a href="{% url 'folder_detail' file.id %}">{{ file.name }}</a>
-                        </div>
-                    </li>
-                {% else %}
-                    <li>
-                        <div class="file-item" data-file-id="{{ file.id }}" data-url="{% url 'file_delete' file.id %}">
-                            <a href="{{ file.file.url }}" target="_blank">
-                                <img src="{{ file.image.url }}" alt="{{ file.name }}" width="100" height="100">
-                            </a>
-                            <a href="{{ file.file.url }}" target="_blank">{{ file.name }}</a>
-                        </div>
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
+    <ul class="file-list">
+        {% for file in files %}
+            {% if file.folder or file.parent_folder %}
+                {# Ничего не делать, пропустить #}
+            {% elif file.is_folder %}
+                <li>
+                    <div class="file-item folder-item" data-file-id="{{ file.id }}" data-url="{% url 'folder_delete' file.id %}" data-additional-url="{% url 'folder_download' file.id %}" draggable="true">
+                        <a href="{% url 'folder_detail' file.id %}">
+                            <img src="{{ file.image.url }}" alt="{{ file.name }}" width="100" height="100">
+                        </a>
+                        <a href="{% url 'folder_detail' file.id %}">{{ file.name }}</a>
+                    </div>
+                </li>
+            {% else %}
+                <li>
+                    <div class="file-item" data-file-id="{{ file.id }}" data-url="{% url 'file_delete' file.id %}" draggable="true">
+                        <a href="{{ file.file.url }}" target="_blank">
+                            <img src="{{ file.image.url }}" alt="{{ file.name }}" width="100" height="100">
+                        </a>
+                        <a href="{{ file.file.url }}" target="_blank">{{ file.name }}</a>
+                    </div>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
     {% else %}
         <h1> Авторизуйтесь, чтобы пользоваться облачным хранилищем!</h1>
     {% endif %}

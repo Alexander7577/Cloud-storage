@@ -18,7 +18,12 @@ document.querySelectorAll('.file-item').forEach(function(fileItem) {
         var contextMenu = document.createElement('ul');
         contextMenu.classList.add('context-menu');
         var deleteURL = fileItem.getAttribute('data-url');
+        if (fileItem.classList.contains('folder-item')) {
+        var downloadURL = fileItem.getAttribute('data-additional-url'); // URL для скачивания папки
+        }
+        else {
         var downloadURL = fileItem.querySelector('a').getAttribute('href'); // URL для скачивания файла
+        }
         contextMenu.innerHTML = `
             <li><a href="${downloadURL}" download>Скачать</a></li>
             <li><a href="${deleteURL}">Удалить</a></li>
@@ -37,6 +42,41 @@ document.querySelectorAll('.file-item').forEach(function(fileItem) {
             if (currentContextMenu) {
                 currentContextMenu.remove();
                 currentContextMenu = null;
+            }
+        });
+    });
+});
+
+
+$(document).ready(function () {
+    $(".file-item").on("dragstart", function (event) {
+        var fileID = $(this).data("file-id");
+        event.originalEvent.dataTransfer.setData("file-id", fileID);
+    });
+
+    $(".folder-item, .back-link").on("dragover", function (event) {
+        event.preventDefault();
+        $(this).addClass("drag-over");
+    });
+
+    $(".folder-item, .back-link").on("dragleave", function () {
+        $(this).removeClass("drag-over");
+    });
+
+    $(".folder-item, .back-link").on("drop", function (event) {
+        event.preventDefault();
+        $(this).removeClass("drag-over");
+
+        var folderID = $(this).data("file-id");
+        var fileID = event.originalEvent.dataTransfer.getData("file-id");
+
+        // Отправьте данные на сервер для перемещения файла в папку или в `file_list`
+        $.ajax({
+            url: "/cloud/move-file/" + folderID + "/" + fileID + "/",
+            method: "GET",
+            success: function (data) {
+                // Обновите список файлов и папок на странице, чтобы отразить изменения
+                location.reload(); // Простой способ обновить страницу
             }
         });
     });
