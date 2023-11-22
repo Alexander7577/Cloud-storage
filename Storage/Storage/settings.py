@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
-    'cloud',
+    'cloud.apps.CloudConfig',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',

@@ -7,7 +7,7 @@ class Folder(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     date_time = models.DateTimeField(auto_now_add=True)
-    size = models.PositiveIntegerField()
+    size = models.PositiveIntegerField(default=0)
     image = models.ImageField(upload_to='file_images/', default='file_images/folder.png')
     is_folder = models.BooleanField(default=True)
     parent_folder = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)

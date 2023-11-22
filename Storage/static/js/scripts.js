@@ -49,11 +49,15 @@ document.querySelectorAll('.file-item').forEach(function(fileItem) {
 
 
 $(document).ready(function () {
-    $(".file-item").on("dragstart", function (event) {
-        var fileID = $(this).data("file-id");
-        event.originalEvent.dataTransfer.setData("file-id", fileID);
+    // Обработка события "dragstart" для файлов и папок
+    $(".file-item, .folder-item").on("dragstart", function (event) {
+        var itemID = $(this).data("file-id");
+        var isFolder = $(this).hasClass("folder-item");
+        event.originalEvent.dataTransfer.setData("item-id", itemID);
+        event.originalEvent.dataTransfer.setData("is-folder", isFolder);
     });
 
+    // Обработка события "dragover" для папок и элементов "назад"
     $(".folder-item, .back-link").on("dragover", function (event) {
         event.preventDefault();
         $(this).addClass("drag-over");
@@ -68,16 +72,69 @@ $(document).ready(function () {
         $(this).removeClass("drag-over");
 
         var folderID = $(this).data("file-id");
-        var fileID = event.originalEvent.dataTransfer.getData("file-id");
+        var itemID = event.originalEvent.dataTransfer.getData("item-id");
+        var isFolder = event.originalEvent.dataTransfer.getData("is-folder") === "true";
 
-        // Отправьте данные на сервер для перемещения файла в папку или в `file_list`
-        $.ajax({
-            url: "/cloud/move-file/" + folderID + "/" + fileID + "/",
-            method: "GET",
-            success: function (data) {
-                // Обновите список файлов и папок на странице, чтобы отразить изменения
-                location.reload(); // Простой способ обновить страницу
-            }
-        });
+        // Проверяем, является ли перетаскиваемый элемент файлом или папкой
+        if (isFolder) {
+            // Обработка перетаскиваемой папки
+            // Отправьте данные на сервер для перемещения папки в папку или в `file_list`
+            $.ajax({
+                url: "/cloud/move-folder/" + folderID + "/" + itemID + "/",
+                method: "GET",
+                success: function (data) {
+                    // Обновите список файлов и папок на странице, чтобы отразить изменения
+                    location.reload(); // Простой способ обновить страницу
+                }
+            });
+        } else {
+            // Обработка перетаскиваемого файла
+            // Отправьте данные на сервер для перемещения файла в папку или в `file_list`
+            $.ajax({
+                url: "/cloud/move-file/" + folderID + "/" + itemID + "/",
+                method: "GET",
+                success: function (data) {
+                    // Обновите список файлов и папок на странице, чтобы отразить изменения
+                    location.reload(); // Простой способ обновить страницу
+                }
+            });
+        }
     });
 });
+
+
+// Открывает модальное окно
+function openModal(event) {
+    event.preventDefault(); // Предотвращает стандартное действие при клике на ссылке
+    document.getElementById('createFolderModal').style.display = 'block';
+}
+
+// Закрывает модальное окно
+function closeModal() {
+    document.getElementById('createFolderModal').style.display = 'none';
+}
+
+
+// Отправляет форму AJAX-запросом
+function submitForm() {
+    var folderName = $('#folderName').val(); // Получаем значение из поля ввода
+    var url = $('#createFolderForm').attr('action'); // Получаем URL из формы
+
+    // Добавьте обработку AJAX-запроса с использованием jQuery.ajax
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: {
+            'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
+            'name': folderName,
+        },
+        success: function () {
+            // После успешного создания папки перезагрузите страницу
+            location.reload();
+        },
+        error: function () {
+            // Обработка ошибок при выполнении AJAX-запроса
+            console.error('Ошибка AJAX-запроса');
+        }
+    });
+}
